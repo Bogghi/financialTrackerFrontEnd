@@ -30,6 +30,16 @@ class Main extends React.Component {
                     name: 'bilancio',
                     selector: row => row.bilancio,
                     sortable: true
+                },
+                {
+                    name: 'descrizione',
+                    selector: row => row.description,
+                    sortable: true
+                },
+                {
+                    name: 'data creazione',
+                    selector: row => row.creationDate,
+                    sortable: true
                 }
             ],
             data: []
@@ -71,34 +81,39 @@ class Main extends React.Component {
 
     render(){
         return (
-            <Container fluid>
-                <Row>
-                    <Col>
-                        <Card>
-                            <Card.Header>
-                                <Row>
-                                    <Col className="align-start">
-                                        <h6>Conti Corrente</h6>
-                                    </Col>
-                                    <Col className="align-end">
-                                        <Button variant="primary" size="sm">
-                                            Aggiungi Conto Corrente
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Card.Header>
-                            <Card.Body className="no-padding">
-                                <DataTable
-                                    columns={this.state.columns}
-                                    defaultSortFieldId={1}
-                                    customStyles={this.customStyles}
-                                    dense
-                                    data={this.state.data}/>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
+            <div className="main">
+                <Container fluid>
+                    <Row><Col>
+                        <h3>Gestione Monetaria</h3>
+                    </Col></Row>
+                    <Row>
+                        <Col>
+                            <Card>
+                                <Card.Header>
+                                    <Row>
+                                        <Col className="align-start">
+                                            <h6>Conti Corrente</h6>
+                                        </Col>
+                                        <Col className="align-end">
+                                            <Button variant="primary" size="sm">
+                                                Aggiungi Conto Corrente
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                </Card.Header>
+                                <Card.Body className="no-padding">
+                                    <DataTable
+                                        columns={this.state.columns}
+                                        defaultSortFieldId={1}
+                                        customStyles={this.customStyles}
+                                        dense
+                                        data={this.state.data}/>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
         );
     }
 
@@ -115,8 +130,10 @@ class Main extends React.Component {
             for (const k in response) {
                 rows.push({
                     id: parseInt(k),
-                    nome: response[k].description,
-                    bilancio: response[k].balance
+                    nome: response[k].name,
+                    bilancio: response[k].balance,
+                    description: response[k].description,
+                    creationDate: response[k].insert_date.replace(/T/, ' ').replace(/\..+/, '')
                 })
             }
             this.setState({
