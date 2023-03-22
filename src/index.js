@@ -120,8 +120,8 @@ class Main extends React.Component {
                     </Row>
                 </Container>
 
-                <Modal show={this.state.show}>
-                    <Modal.Header closeButton={() => this.hideModalAdd()}>
+                <Modal show={this.state.show} onHide={() => this.hideModalAdd()}>
+                    <Modal.Header closeButton>
                         <Modal.Title>Aggiungi un conto corrente</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -199,10 +199,11 @@ class Main extends React.Component {
             account[e.getAttribute('name')] = e.value
         })
 
-        console.log(account)
-        const response = await axios.post(`http://localhost:3000/api/accounts/add`,
-            account)
-        console.log(response.data)
+        const response = await axios.post(
+            `http://localhost:3000/api/accounts/add`,
+            account
+        )
+
         this.hideModalAdd()
         this.getData()
     }
