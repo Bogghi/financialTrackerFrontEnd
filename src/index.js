@@ -193,11 +193,18 @@ class Main extends React.Component {
         })
     }
     async addAccount(){
-        let account = {}
+        let account = {},
+            ok = true
 
         document.querySelectorAll(`[form="add-account"]`).forEach((e, i) => {
             account[e.getAttribute('name')] = e.value
+            if(e.hasAttribute('required') && e.value.length === 0)
+                ok = false
         })
+
+        console.log(ok)
+        if(!ok)
+            return console.log('porcodio')
 
         const response = await axios.post(
             `http://localhost:3000/api/accounts/add`,
